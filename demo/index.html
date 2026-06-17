@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="slidecraft">
+  <title>SlideCraft Demo</title>
+  <link rel="preconnect" href="https://fonts.font.im">
+  <link rel="preconnect" href="https://fonts.font.im" crossorigin>
+  <link href="https://fonts.font.im/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+  --color-bg: #0d1117;
+  --color-bg-deep: #060910;
+  --color-surface: #161b22;
+  --color-text: #e6edf3;
+  --color-text-secondary: #b1bac4;
+  --color-text-muted: #6e7681;
+  --color-accent-1: #60a5fa;
+  --color-accent-2: #a78bfa;
+  --color-accent-3: #34d399;
+  --color-accent-4: #fb923c;
+  --color-glass-bg: rgba(255,255,255,0.05);
+  --color-glass-border: rgba(255,255,255,0.09);
+  --color-vignette: rgba(0,0,0,0.42);
+  --font-display: 'Instrument Serif', serif;
+  --font-body: 'Inter', sans-serif;
+}
+  </style>
+  <style>
+  :root { --color-bg:#0d1117; --color-text:#e6edf3; --glow-color-rgb:96,165,250; }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{background:var(--color-bg);margin:0}
+  body{font-family:'Inter',sans-serif;color:var(--color-text);overflow:hidden;height:100vh;width:100vw}
+  .deck{width:100vw;height:100vh;position:relative}
+  .slide{position:absolute;inset:0;background:var(--color-bg);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.95);transition:opacity .7s ease,transform .7s ease;pointer-events:none;overflow:hidden}
+  .slide.active{opacity:1;transform:scale(1);pointer-events:all}
+  .slide>.content{position:relative;z-index:2;width:100%;max-width:1180px;padding:clamp(1.3rem,3vw,3rem)}
+  .nav-controls{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;background:rgba(255,255,255,.05);backdrop-filter:blur(12px);padding:9px 20px;border-radius:40px;border:1px solid rgba(255,255,255,.1);transition:opacity 0.3s ease, visibility 0.3s ease}
+  .nav-controls.hidden{opacity:0;visibility:hidden;pointer-events:none}
+  .nav-controls:hover{opacity:1;visibility:visible}
+  .nav-btn{width:36px;height:36px;border:none;background:rgba(255,255,255,.05);color:#60a5fa;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .slide-dots{display:flex;gap:6px}.slide-dots .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.12);cursor:pointer}.slide-dots .dot.active{background:#60a5fa;transform:scale(1.25)}
+  .slide-counter{font-size:.75rem;color:#6e7681;min-width:42px;text-align:center}
+  .reveal{opacity:0;transform:translateY(20px)}
+  .gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .blob{position:absolute;border-radius:50%;filter:blur(80px);animation:float-slow 12s ease-in-out infinite}
+  .blob:nth-child(2){animation:float-drift 16s ease-in-out infinite}
+  .blob:nth-child(3){animation:float-slow 20s ease-in-out infinite reverse}
+  .slide::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-size:256px 256px;opacity:.03;mix-blend-mode:overlay}
+  .slide::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 52%,var(--color-vignette) 100%)}
+  @keyframes float-slow{0%{transform:translate(0,0) scale(1)}25%{transform:translate(60px,-50px) scale(1.12)}50%{transform:translate(-40px,40px) scale(.9)}75%{transform:translate(50px,20px) scale(1.08)}100%{transform:translate(0,0) scale(1)}}
+  @keyframes float-drift{0%{transform:translate(0,0) scale(1) rotate(0deg)}33%{transform:translate(-50px,-60px) scale(1.15) rotate(3deg)}66%{transform:translate(40px,30px) scale(.88) rotate(-2deg)}100%{transform:translate(0,0) scale(1) rotate(0deg)}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  .badge{display:inline-block;font-size:.63rem;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:18px;text-transform:uppercase}
+  .b1{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3)}
+  .b2{background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.3)}
+  .b3{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)}
+  .b4{background:rgba(251,146,60,.15);color:#fb923c;border:1px solid rgba(251,146,60,.3)}
+  .b5{background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.3)}
+  .card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:.95rem 1.1rem;transition:.25s;display:flex;flex-direction:column;justify-content:center}
+  .card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(96,165,250,.08)}
+  .card-blue{border-left:3px solid #60a5fa}.card-purple{border-left:3px solid #a78bfa}.card-green{border-left:3px solid #34d399}.card-orange{border-left:3px solid #fb923c}.card-red{border-left:3px solid #f87171}
+  .small{font-size:.68rem;color:#6e7681;line-height:1.55}
+  .body{font-size:.75rem;color:#b1bac4;line-height:1.65}
+  .title{font-family:'Instrument Serif',serif;font-size:clamp(1.45rem,3vw,2.15rem);font-weight:600;line-height:1.2;margin:0}
+  .section-label{font-size:.64rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#6e7681;margin-bottom:.35rem}
+  .formula{font-family:'JetBrains Mono',monospace;background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.18);border-radius:10px;padding:.55rem .9rem;font-size:.73rem;color:#93c5fd;line-height:1.65}
+  .story-arrow{font-size:1.2rem;color:#6e7681;text-align:center;display:flex;align-items:center;justify-content:center}
+  .memory-bar{height:16px;border-radius:8px;background:linear-gradient(90deg,#f87171,#fb923c,#a78bfa,#60a5fa,#34d399)}
+  .icon-circle{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-size:1.1rem;flex-shrink:0}
+  .compare-col{display:flex;flex-direction:column;gap:.5rem}
+  .divider{height:1px;background:var(--color-glass-border);margin:.6rem 0}
+  .callout{display:flex;align-items:center;gap:.7rem;background:linear-gradient(135deg,rgba(96,165,250,0.08),rgba(96,165,250,0.03));border-radius:10px;padding:.8rem 1rem;border:1px solid rgba(96,165,250,0.2);border-left:3px solid #60a5fa}
+  .callout-icon{font-size:1.1rem;line-height:1;flex-shrink:0}
+  .callout-body{flex:1;min-width:0}
+  .callout-text{font-size:.8rem;font-weight:500;color:var(--color-text);line-height:1.6;margin:0}
+  .mouse-spotlight{position:fixed;inset:0;z-index:99;pointer-events:none}
+  /* ── Academic Three-line Table (sc-table) ──────────────── */
+  .sc-table{width:100%;overflow-x:auto;margin:.3rem 0}
+  .sc-table table{width:100%;border-collapse:collapse;font-size:.72rem;line-height:1.45}
+  .sc-table caption{display:block;font-size:.67rem;color:var(--color-text-muted);padding:.25rem 0 .45rem;text-align:left}
+  .sc-table caption.cap-bottom{padding:.45rem 0 .25rem}
+  .sc-table thead th{font-weight:700;color:var(--color-text);padding:.4rem .65rem;white-space:nowrap;border-top:2px solid rgba(230,237,243,0.45);border-bottom:1.5px solid rgba(230,237,243,0.22);text-align:center}
+  .sc-table thead th:first-child{text-align:left}
+  .sc-table tbody td{padding:.33rem .65rem;color:var(--color-text-secondary);border:none;transition:background .15s}
+  .sc-table tbody td:first-child{color:var(--color-text)}
+  .sc-table tbody tr:last-child td{border-bottom:2px solid rgba(230,237,243,0.45)}
+  .sc-table tbody tr:hover:not(.sc-row-hl) td{background:rgba(255,255,255,0.025)}
+  .sc-table .sc-row-hl td{font-weight:700;color:var(--color-text)!important;background:rgba(96,165,250,0.10)}
+  .sc-table .sc-cell-bold{font-weight:700;color:var(--color-text)!important}
+  .sc-table .sc-cell-ul{text-decoration:underline dotted;text-underline-offset:2px}
+  .sc-table .sc-cell-accent{color:var(--color-accent-1)!important;font-weight:700}
+
+  </style>
+</head>
+<body>
+<div class="mouse-spotlight"></div>
+<div class="deck">
+
+<div class="slide active" data-slide="1">
+  <div class="gradient-mesh"><div class="blob" style="width:380px;height:380px;top:-80px;right:-60px;background:#60a5fa;opacity:0.08"></div>
+<div class="blob" style="width:290px;height:290px;bottom:-70px;left:-60px;background:#a78bfa;opacity:0.07"></div></div>
+  <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1"></canvas>
+  <div class="content" style="text-align:center">
+    <div class="reveal title-icon" style="font-size:78px;margin-bottom:.8rem;animation:float 3.5s ease-in-out infinite">✨</div>
+    <div class="reveal" style="margin-bottom:.6rem"><span class="badge b4">v1.0</span></div>
+    <h1 class="reveal" style="font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:700;line-height:1.1;margin:0 0 .7rem;background:linear-gradient(135deg,#60a5fa,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">SlideCraft</h1>
+    <p class="reveal" style="font-size:.92rem;color:var(--color-text-muted);letter-spacing:.05em;margin:0 0 1.2rem">YAML → Beautiful Slides</p>
+    <div class="reveal" style="display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap"><span class="badge b1">components</span><span class="badge b2">themes</span><span class="badge b3">data-table</span></div>
+    
+  </div>
+</div>
+
+<div class="slide" data-slide="2">
+  <div class="gradient-mesh"><div class="blob" style="width:380px;height:380px;top:-80px;right:-60px;background:#60a5fa;opacity:0.08"></div>
+<div class="blob" style="width:290px;height:290px;bottom:-70px;left:-60px;background:#a78bfa;opacity:0.07"></div></div>
+  
+  <div class="content">
+    <div class="reveal" style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+  <span class="badge b1">Layouts</span>
+  <h2 class="title">Cards & Stacks</h2>
+</div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:0.75rem;align-items:stretch;"><div class="card card-blue reveal"><div class="section-label" style="color:var(--color-accent-1)">Features</div>
+<p class="text-heading" style="font-size:.78rem;font-weight:700;color:var(--color-text);margin:0 0 .25rem;"><strong style="color:var(--color-text)">Icon Items</strong></p>
+<div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:.5rem"><div style="display:flex;gap:.6rem;align-items:flex-start">
+  <div class="icon-circle">🚀</div>
+  <div>
+    <p style="font-size:.75rem;font-weight:700;color:var(--color-text);margin:0 0 .15rem">Fast</p>
+    <p class="small" style="margin:0">Build slides in minutes</p>
+  </div>
+</div>
+<div style="display:flex;gap:.6rem;align-items:flex-start">
+  <div class="icon-circle">🎨</div>
+  <div>
+    <p style="font-size:.75rem;font-weight:700;color:var(--color-text);margin:0 0 .15rem">Themed</p>
+    <p class="small" style="margin:0">Dark, light, formal</p>
+  </div>
+</div></div></div>
+<div class="card card-purple reveal"><div class="section-label" style="color:var(--color-accent-2)">Metrics</div>
+<p class="text-heading" style="font-size:.78rem;font-weight:700;color:var(--color-text);margin:0 0 .25rem;"><strong style="color:var(--color-text)">Level Bars</strong></p>
+<div style="display:flex;flex-direction:column;gap:.45rem;margin-top:.4rem"><div style="background:rgba(167,139,250,0.07);padding:.55rem .75rem;border-radius:8px">
+  <p style="font-size:.7rem;color:#a78bfa;font-weight:700;margin:0">Accuracy</p>
+  <p class="small" style="margin:0"></p>
+</div>
+<div style="background:rgba(129,140,248,0.07);padding:.55rem .75rem;border-radius:8px">
+  <p style="font-size:.7rem;color:#818cf8;font-weight:700;margin:0">Speed</p>
+  <p class="small" style="margin:0"></p>
+</div>
+<div style="background:rgba(192,132,252,0.07);padding:.55rem .75rem;border-radius:8px">
+  <p style="font-size:.7rem;color:#c084fc;font-weight:700;margin:0">Coverage</p>
+  <p class="small" style="margin:0"></p>
+</div></div></div>
+<div class="card card-green reveal"><div class="section-label" style="color:var(--color-accent-3)">Status</div>
+<p class="text-heading" style="font-size:.78rem;font-weight:700;color:var(--color-text);margin:0 0 .25rem;"><strong style="color:var(--color-text)">Mini Cards</strong></p>
+<div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:0.4rem;align-items:stretch;"><div style="background:rgba(52,211,153,0.07);padding:.6rem;border-radius:10px;text-align:left">
+  <p style="font-size:.7rem;font-weight:700;color:#34d399;margin:0 0 .2rem">Pass</p>
+  <p class="small" style="margin:0"></p>
+</div>
+<div style="background:rgba(251,146,60,0.07);padding:.6rem;border-radius:10px;text-align:left">
+  <p style="font-size:.7rem;font-weight:700;color:#fb923c;margin:0 0 .2rem">Warn</p>
+  <p class="small" style="margin:0"></p>
+</div>
+<div style="background:rgba(96,165,250,0.07);padding:.6rem;border-radius:10px;text-align:left">
+  <p style="font-size:.7rem;font-weight:700;color:#60a5fa;margin:0 0 .2rem">Info</p>
+  <p class="small" style="margin:0"></p>
+</div>
+<div style="background:rgba(248,113,113,0.07);padding:.6rem;border-radius:10px;text-align:left">
+  <p style="font-size:.7rem;font-weight:700;color:#f87171;margin:0 0 .2rem">Fail</p>
+  <p class="small" style="margin:0"></p>
+</div></div></div></div>
+<div class="reveal callout"><span class="callout-icon">💡</span><div class="callout-body"><p class="callout-text"><strong style="color:var(--color-text)">Grid layout</strong> supports 1–4 columns with automatic card reveal animations.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="3">
+  <div class="gradient-mesh"><div class="blob" style="width:380px;height:380px;top:-80px;right:-60px;background:#60a5fa;opacity:0.08"></div>
+<div class="blob" style="width:290px;height:290px;bottom:-70px;left:-60px;background:#a78bfa;opacity:0.07"></div></div>
+  
+  <div class="content">
+    <div class="reveal" style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+  <span class="badge b3">Data</span>
+  <h2 class="title">Data Table Features</h2>
+</div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div class="sc-table reveal">
+<table>
+  <caption class="sc-cap" style="caption-side:top">Table 1: Benchmark results. Bold = best, underline = second best.</caption>
+  <thead><tr><th style="text-align:left">Model</th><th style="text-align:center">Acc ↑</th><th style="text-align:center">F1 ↑</th><th style="text-align:center">Latency</th></tr></thead>
+  <tbody><tr><td style="text-align:left;">Baseline</td><td style="text-align:center;background:rgba(96,165,250,0.070);">72.30</td><td style="text-align:center;background:rgba(52,211,153,0.070);">68.50</td><td style="text-align:center;">12ms</td></tr><tr><td style="text-align:left;">Model A</td><td style="text-align:center;background:rgba(96,165,250,0.264);">84.10</td><td style="text-align:center;background:rgba(52,211,153,0.258);">79.80</td><td style="text-align:center;">15ms</td></tr><tr><td style="text-align:left;">Model B</td><td class="sc-cell-ul" style="text-align:center;background:rgba(96,165,250,0.321);">87.60</td><td class="sc-cell-ul" style="text-align:center;background:rgba(52,211,153,0.310);">82.90</td><td style="text-align:center;">18ms</td></tr><tr class="sc-row-hl"><td style="text-align:left;"><strong style="color:var(--color-text)">Ours</strong></td><td class="sc-cell-bold" style="text-align:center;background:rgba(96,165,250,0.380);">91.20</td><td class="sc-cell-bold" style="text-align:center;background:rgba(52,211,153,0.380);">87.10</td><td style="text-align:center;">14ms</td></tr></tbody>
+</table>
+</div>
+<div class="reveal callout"><span class="callout-icon">📊</span><div class="callout-body"><p class="callout-text"><strong style="color:var(--color-text)">Heatmap</strong> colors and <strong style="color:var(--color-text)">markings</strong> are computed automatically from the data.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="4">
+  <div class="gradient-mesh"><div class="blob" style="width:380px;height:380px;top:-80px;right:-60px;background:#60a5fa;opacity:0.08"></div>
+<div class="blob" style="width:290px;height:290px;bottom:-70px;left:-60px;background:#a78bfa;opacity:0.07"></div></div>
+  
+  <div class="content">
+    <div class="reveal" style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+  <span class="badge b5">Compare</span>
+  <h2 class="title">Comparison Layout</h2>
+</div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:0.75rem;align-items:stretch;"><div class="card card-red reveal"><div class="section-label" style="color:var(--color-accent-5)">Before</div>
+<p class="text-heading" style="font-size:.78rem;font-weight:700;color:var(--color-text);margin:0 0 .25rem;"><strong style="color:var(--color-text)">Manual Slides</strong></p>
+<p class="body" style="margin:0;">Hours of formatting, inconsistent styles, hard to maintain.</p>
+<div class="formula">
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>time</mtext><mo>≫</mo><mtext>content</mtext></mrow><annotation encoding="application/x-tex">\text{time} \gg \text{content}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.707em;vertical-align:-0.0391em;"></span><span class="mord text"><span class="mord">time</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≫</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord text"><span class="mord">content</span></span></span></span></span></span></div></div>
+<div class="story-arrow">⟶</div>
+<div class="card card-blue reveal"><div class="section-label" style="color:var(--color-accent-1)">After</div>
+<p class="text-heading" style="font-size:.78rem;font-weight:700;color:var(--color-text);margin:0 0 .25rem;"><strong style="color:var(--color-text)">SlideCraft</strong></p>
+<p class="body" style="margin:0;">YAML-driven, theme-aware, instant rebuild.</p>
+<div class="formula">
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>time</mtext><mo>≈</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\text{time} \approx 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord text"><span class="mord">time</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></span></div></div></div>
+<div class="reveal callout"><span class="callout-icon">💡</span><div class="callout-body"><p class="callout-text"><strong style="color:var(--color-text)">Arrow component</strong> connects two cards in a before/after comparison.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="5">
+  <div class="gradient-mesh"><div class="blob" style="width:380px;height:380px;top:-80px;right:-60px;background:#60a5fa;opacity:0.08"></div>
+<div class="blob" style="width:290px;height:290px;bottom:-70px;left:-60px;background:#a78bfa;opacity:0.07"></div></div>
+  
+  <div class="content">
+    <div class="reveal" style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+  <span class="badge b2">Extras</span>
+  <h2 class="title">More Components</h2>
+</div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:0.75rem;align-items:stretch;"><div class="card card-purple reveal"><div class="section-label" style="color:var(--color-accent-2)">Progress</div>
+<p class="text-heading" style="font-size:.78rem;font-weight:700;color:var(--color-text);margin:0 0 .25rem;"><strong style="color:var(--color-text)">Progress Bars</strong></p>
+<div style="display:flex;flex-direction:column;gap:.35rem;margin-top:.4rem"><div class="reveal" style="margin-bottom:.4rem">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.2rem">
+      <span class="small" style="font-weight:600;color:var(--color-text)">Slides</span>
+      <span class="small" style="color:#a78bfa;font-weight:700">92.0000</span>
+    </div>
+    <div style="height:8px;border-radius:4px;background:rgba(167,139,250,0.07);overflow:hidden">
+      <div style="height:100%;width:100%;border-radius:4px;background:#a78bfa"></div>
+    </div>
+  </div>
+<div class="reveal" style="margin-bottom:.4rem">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.2rem">
+      <span class="small" style="font-weight:600;color:var(--color-text)">Components</span>
+      <span class="small" style="color:#818cf8;font-weight:700">78.0000</span>
+    </div>
+    <div style="height:8px;border-radius:4px;background:rgba(129,140,248,0.07);overflow:hidden">
+      <div style="height:100%;width:100%;border-radius:4px;background:#818cf8"></div>
+    </div>
+  </div>
+<div class="reveal" style="margin-bottom:.4rem">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.2rem">
+      <span class="small" style="font-weight:600;color:var(--color-text)">Themes</span>
+      <span class="small" style="color:#c084fc;font-weight:700">65.0000</span>
+    </div>
+    <div style="height:8px;border-radius:4px;background:rgba(192,132,252,0.07);overflow:hidden">
+      <div style="height:100%;width:100%;border-radius:4px;background:#c084fc"></div>
+    </div>
+  </div></div></div>
+<div class="card card-green reveal"><div class="section-label" style="color:var(--color-accent-3)">Visual</div>
+<p class="text-heading" style="font-size:.78rem;font-weight:700;color:var(--color-text);margin:0 0 .25rem;"><strong style="color:var(--color-text)">Bar & Emoji</strong></p>
+<div class="memory-bar"></div>
+<div style="display:flex;justify-content:space-between;margin-top:.35rem"><span class="small">Low</span><span class="small">Med</span><span class="small">High</span></div>
+<div class="reveal" style="font-size:2.5rem;margin-bottom:.8rem;animation:float 3.5s ease-in-out infinite;">🎉</div></div></div>
+<div class="reveal" style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-top:0.6rem;"><span class="badge b1">YAML</span><span class="badge b2">HTML</span><span class="badge b3">PPTX</span><span class="badge b4">KaTeX</span></div>
+<div class="reveal callout"><span class="callout-icon">💡</span><div class="callout-body"><p class="callout-text"><strong style="color:var(--color-text)">17 components</strong> · <strong style="color:var(--color-text)">3 themes</strong> · <strong style="color:var(--color-text)">Markdown & LaTeX</strong> support</p></div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+<div class="nav-controls">
+  <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="slide-dots" id="dots"></div>
+  <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+  <span class="slide-counter" id="counter">1 / 5</span>
+</div>
+<script>
+let current=1;
+const total=document.querySelectorAll('.slide').length;
+const dotsContainer=document.getElementById('dots');
+const counter=document.getElementById('counter');
+for(let i=1;i<=total;i++){const dot=document.createElement('div');dot.className='dot'+(i===1?' active':'');dot.onclick=()=>goToSlide(i);dotsContainer.appendChild(dot)}
+function goToSlide(n){const prev=document.querySelector('.slide.active');const next=document.querySelector('.slide[data-slide="'+n+'"]');if(prev)prev.classList.remove('active');if(next){next.classList.add('active');animateSlide(next)}current=n;updateNav()}
+function changeSlide(dir){let next=current+dir;if(next<1)next=total;if(next>total)next=1;goToSlide(next)}
+function updateNav(){document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i+1===current));counter.textContent=current+' / '+total}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1)}if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1)}})
+let touchStartX=0;
+document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX});
+document.addEventListener('touchend',e=>{const diff=touchStartX-e.changedTouches[0].clientX;if(Math.abs(diff)>50)changeSlide(diff>0?1:-1)})
+function animateSlide(slide){slide.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transition='none';el.style.opacity='0';el.style.transform='translateY(20px)';el.offsetHeight;const delay=i*0.07;el.style.transition='opacity 0.35s ease '+delay+'s, transform 0.35s ease '+delay+'s';el.style.opacity='1';el.style.transform='translateY(0px)'})}
+document.addEventListener('mousemove',e=>{const s=document.querySelector('.mouse-spotlight');if(s){s.style.background='radial-gradient(600px circle at '+e.clientX+'px '+e.clientY+'px, rgba(96,165,250,0.055), transparent 40%)'}})
+window.initParticles=function(canvas,options){if(!canvas)return;const ctx=canvas.getContext('2d');canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;const interactive=options.interactive!==false;const count=options.count||(interactive?55:18);let mx=-1000,my=-1000;const particles=Array.from({length:count},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*0.3,vy:(Math.random()-.5)*0.3,size:Math.random()*2.5+.8,alpha:Math.random()*.28+.07}));if(interactive){canvas.addEventListener('mousemove',e=>{const rect=canvas.getBoundingClientRect();mx=e.clientX-rect.left;my=e.clientY-rect.top});canvas.addEventListener('mouseleave',()=>{mx=-1000;my=-1000})}(function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{if(interactive){const dx=p.x-mx,dy=p.y-my,dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){const force=(120-dist)/120*2;p.vx+=(dx/dist)*force*0.1;p.vy+=(dy/dist)*force*0.1}}p.vx*=0.98;p.vy*=0.98;p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle='rgba(96,165,250,'+p.alpha+')';ctx.fill()});requestAnimationFrame(animate)})()}
+document.querySelectorAll('.particle-canvas').forEach(c=>window.initParticles(c,{interactive:true,count:55}));
+document.querySelectorAll('.particle-canvas-ambient').forEach(c=>window.initParticles(c,{interactive:false,count:18}));
+try{animateSlide(document.querySelector('.slide.active'))}catch(e){}
+
+// Navigation auto-hide functionality
+(function() {
+    const navControls = document.querySelector('.nav-controls');
+    if (!navControls) return;
+
+    let hideTimer = null;
+    const HIDE_DELAY = 3000; // 3 seconds
+    const BOTTOM_THRESHOLD = 100; // pixels from bottom to trigger show
+
+    function hideNavControls() {
+        navControls.classList.add('hidden');
+    }
+
+    function showNavControls() {
+        navControls.classList.remove('hidden');
+        resetHideTimer();
+    }
+
+    function resetHideTimer() {
+        if (hideTimer) {
+            clearTimeout(hideTimer);
+        }
+        hideTimer = setTimeout(hideNavControls, HIDE_DELAY);
+    }
+
+    // Mouse move listener to detect when near bottom
+    document.addEventListener('mousemove', function(e) {
+        const windowHeight = window.innerHeight;
+        const mouseY = e.clientY;
+
+        if (mouseY > windowHeight - BOTTOM_THRESHOLD) {
+            // Mouse is near bottom, show nav controls
+            showNavControls();
+        }
+    });
+
+    // Also show when mouse enters nav controls
+    navControls.addEventListener('mouseenter', function() {
+        showNavControls();
+    });
+
+    // Initialize: start hide timer
+    resetHideTimer();
+
+    // Reset timer on any user interaction
+    document.addEventListener('keydown', resetHideTimer);
+    document.addEventListener('click', resetHideTimer);
+    document.addEventListener('touchstart', resetHideTimer);
+})();
+</script>
+</body>
+</html>

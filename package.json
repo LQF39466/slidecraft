@@ -1,0 +1,24 @@
+{
+  "name": "slidecraft",
+  "version": "1.0.0",
+  "description": "Compile YAML slide definitions into beautiful HTML presentations",
+  "main": "src/compiler.js",
+  "bin": {
+    "slidecraft": "./bin/slidecraft.js"
+  },
+  "scripts": {
+    "demo": "node bin/slidecraft.js demo"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "katex": "^0.16.45",
+    "pptxgenjs": "^4.0.1"
+  },
+  "keywords": [
+    "slides",
+    "presentation",
+    "html",
+    "yaml"
+  ],
+  "license": "MIT"
+}

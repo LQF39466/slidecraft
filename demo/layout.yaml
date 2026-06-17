@@ -1,0 +1,260 @@
+meta:
+  title: "SlideCraft Demo"
+  lang: en
+
+slides:
+  # ── Page 1: Title ─────────────────────────────────────────────────────
+  - layout: title
+    particles: interactive
+    icon: "✨"
+    badge:
+      text: v1.0
+      variant: b4
+    title: "SlideCraft"
+    subtitle: "YAML → Beautiful Slides"
+    tags:
+      - text: components
+        variant: b1
+      - text: themes
+        variant: b2
+      - text: data-table
+        variant: b3
+
+  # ── Page 2: Cards & Stacks ────────────────────────────────────────────
+  - layout: content
+    header:
+      badge:
+        text: Layouts
+        variant: b1
+      title: "Cards & Stacks"
+    body:
+      - type: grid
+        columns: 3
+        gap: "0.75rem"
+        items:
+          - type: card
+            accent: blue
+            children:
+              - type: label
+                text: Features
+                color: "var(--color-accent-1)"
+              - type: text
+                text: "**Icon Items**"
+                style: heading
+              - type: icon-items-stack
+                gap: "0.5rem"
+                items:
+                  - icon: "🚀"
+                    title: "Fast"
+                    body: "Build slides in minutes"
+                  - icon: "🎨"
+                    title: "Themed"
+                    body: "Dark, light, formal"
+          - type: card
+            accent: purple
+            children:
+              - type: label
+                text: Metrics
+                color: "var(--color-accent-2)"
+              - type: text
+                text: "**Level Bars**"
+                style: heading
+              - type: level-bars-stack
+                items:
+                  - color: "#a78bfa"
+                    label: "Accuracy"
+                  - color: "#818cf8"
+                    label: "Speed"
+                  - color: "#c084fc"
+                    label: "Coverage"
+          - type: card
+            accent: green
+            children:
+              - type: label
+                text: Status
+                color: "var(--color-accent-3)"
+              - type: text
+                text: "**Mini Cards**"
+                style: heading
+              - type: grid
+                columns: 2
+                gap: "0.4rem"
+                items:
+                  - type: mini-card
+                    color: "#34d399"
+                    label: "Pass"
+                  - type: mini-card
+                    color: "#fb923c"
+                    label: "Warn"
+                  - type: mini-card
+                    color: "#60a5fa"
+                    label: "Info"
+                  - type: mini-card
+                    color: "#f87171"
+                    label: "Fail"
+      - type: callout
+        text: "**Grid layout** supports 1–4 columns with automatic card reveal animations."
+
+  # ── Page 3: Data Table ────────────────────────────────────────────────
+  - layout: content
+    header:
+      badge:
+        text: Data
+        variant: b3
+      title: "Data Table Features"
+    body:
+      - type: data-table
+        caption: "Table 1: Benchmark results. Bold = best, underline = second best."
+        columns:
+          - label: "Model"
+            key: model
+            align: left
+          - label: "Acc ↑"
+            key: acc
+            decimals: 2
+            heatmap: true
+            heatmap_color: a1
+            markings: true
+            markings_order: desc
+          - label: "F1 ↑"
+            key: f1
+            decimals: 2
+            heatmap: true
+            heatmap_color: a3
+            markings: true
+            markings_order: desc
+          - label: "Latency"
+            key: latency
+            align: center
+        rows:
+          - model: "Baseline"
+            acc: 72.30
+            f1: 68.50
+            latency: "12ms"
+          - model: "Model A"
+            acc: 84.10
+            f1: 79.80
+            latency: "15ms"
+          - model: "Model B"
+            acc: 87.60
+            f1: 82.90
+            latency: "18ms"
+          - model: "**Ours**"
+            acc: 91.20
+            f1: 87.10
+            latency: "14ms"
+            _highlight: true
+      - type: callout
+        icon: "📊"
+        text: "**Heatmap** colors and **markings** are computed automatically from the data."
+
+  # ── Page 4: Comparison & Formulas ─────────────────────────────────────
+  - layout: content
+    header:
+      badge:
+        text: Compare
+        variant: b5
+      title: "Comparison Layout"
+    body:
+      - type: grid
+        columns: "1fr auto 1fr"
+        gap: "0.75rem"
+        align: stretch
+        items:
+          - type: card
+            accent: red
+            children:
+              - type: label
+                text: Before
+                color: "var(--color-accent-5)"
+              - type: text
+                text: "**Manual Slides**"
+                style: heading
+              - type: text
+                text: "Hours of formatting, inconsistent styles, hard to maintain."
+                style: body
+              - type: formula
+                text: "\\text{time} \\gg \\text{content}"
+          - type: arrow
+          - type: card
+            accent: blue
+            children:
+              - type: label
+                text: After
+                color: "var(--color-accent-1)"
+              - type: text
+                text: "**SlideCraft**"
+                style: heading
+              - type: text
+                text: "YAML-driven, theme-aware, instant rebuild."
+                style: body
+              - type: formula
+                text: "\\text{time} \\approx 0"
+      - type: callout
+        text: "**Arrow component** connects two cards in a before/after comparison."
+
+  # ── Page 5: More Components ───────────────────────────────────────────
+  - layout: content
+    header:
+      badge:
+        text: Extras
+        variant: b2
+      title: "More Components"
+    body:
+      - type: grid
+        columns: 2
+        gap: "0.75rem"
+        items:
+          - type: card
+            accent: purple
+            children:
+              - type: label
+                text: Progress
+                color: "var(--color-accent-2)"
+              - type: text
+                text: "**Progress Bars**"
+                style: heading
+              - type: progress-bars-stack
+                items:
+                  - value: 92
+                    label: "Slides"
+                    color: "#a78bfa"
+                  - value: 78
+                    label: "Components"
+                    color: "#818cf8"
+                  - value: 65
+                    label: "Themes"
+                    color: "#c084fc"
+          - type: card
+            accent: green
+            children:
+              - type: label
+                text: Visual
+                color: "var(--color-accent-3)"
+              - type: text
+                text: "**Bar & Emoji**"
+                style: heading
+              - type: bar
+                labels:
+                  - "Low"
+                  - "Med"
+                  - "High"
+              - type: emoji
+                icon: "🎉"
+                animate: true
+                size: "2.5rem"
+      - type: tag-row
+        tags:
+          - text: YAML
+            variant: b1
+          - text: HTML
+            variant: b2
+          - text: PPTX
+            variant: b3
+          - text: KaTeX
+            variant: b4
+        justify: center
+        gap: "0.5rem"
+        margin_top: "0.6rem"
+      - type: callout
+        text: "**17 components** · **3 themes** · **Markdown & LaTeX** support"
