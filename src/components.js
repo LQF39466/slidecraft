@@ -23,6 +23,7 @@ function md(text) {
     }
   });
   return s
+    .replace(/\n/g, '<br>')
     .replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--color-text)">$1</strong>')
     .replace(/\*(.+?)\*/g, "<em>$1</em>");
 }
@@ -948,7 +949,7 @@ function renderParticles(particles) {
   if (!particles || particles === false || particles === "none") return "";
   const cls =
     particles === "ambient" ? "particle-canvas-ambient" : "particle-canvas";
-  return `<canvas class="${cls}" style="position:absolute;inset:0;z-index:1"></canvas>`;
+  return `<canvas class="${cls}" style="position:absolute;inset:0;width:100%;height:100%;z-index:1"></canvas>`;
 }
 
 /**
