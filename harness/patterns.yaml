@@ -1,0 +1,139 @@
+patterns:
+  - id: "academic-ablation-table"
+    description: "学术消融实验表格 + 关键结论卡片，两列布局"
+    tags: ["academic", "data-table", "ablation"]
+    usage_count: 0
+    last_used: null
+    yaml_snippet: |
+      - type: grid
+        columns: [1.3, 0.7]
+        gap: "0.75rem"
+        align: stretch
+        items:
+          - type: card
+            accent: blue
+            children:
+              - type: label
+                text: "ABLATION STUDY"
+                color: "#60a5fa"
+              - type: data-table
+                margin_top: "0.4rem"
+                columns:
+                  - label: "Method"
+                    key: method
+                    align: left
+                  - label: "AUC ↑"
+                    key: auc
+                    markings: true
+                    markings_order: desc
+                rows:
+                  - method: "Baseline"
+                    auc: 0.7203
+                  - method: "**Ours**"
+                    auc: 0.9124
+                    _highlight: true
+          - type: card
+            accent: green
+            children:
+              - type: label
+                text: "KEY FINDINGS"
+                color: "#34d399"
+              - type: icon-items-stack
+                items:
+                  - icon: "🎯"
+                    title: "最优性能"
+                    body: "完整模型在所有指标上领先"
+
+  - id: "method-comparison-with-formula"
+    description: "方法对比，左侧公式推导，右侧直觉解释"
+    tags: ["academic", "formula", "comparison"]
+    usage_count: 0
+    last_used: null
+    yaml_snippet: |
+      - type: grid
+        columns: "1fr auto 1fr"
+        gap: "0.7rem"
+        align: stretch
+        items:
+          - type: card
+            accent: red
+            children:
+              - type: label
+                text: "BEFORE"
+                color: "#f87171"
+              - type: text
+                text: "**传统方法**"
+                style: heading
+              - type: formula
+                text: "\\mathcal{L}_{base} = \\sum_{i} y_i \\log p_i"
+          - type: arrow
+          - type: card
+            accent: blue
+            children:
+              - type: label
+                text: "AFTER"
+                color: "#60a5fa"
+              - type: text
+                text: "**改进方法**"
+                style: heading
+              - type: formula
+                text: "\\mathcal{L}_{ours} = \\sum_{i} w_i y_i \\log p_i"
+
+  - id: "three-column-features"
+    description: "三列特性展示卡片"
+    tags: ["general", "features", "grid"]
+    usage_count: 0
+    last_used: null
+    yaml_snippet: |
+      - type: grid
+        columns: 3
+        gap: "0.75rem"
+        items:
+          - type: card
+            accent: blue
+            children:
+              - type: label
+                text: "CATEGORY A"
+                color: "#60a5fa"
+              - type: text
+                text: "**标题**"
+                style: heading
+              - type: icon-items-stack
+                items:
+                  - icon: "🧩"
+                    title: "要点"
+                    body: "说明"
+          - type: card
+            accent: purple
+            children: [...]
+          - type: card
+            accent: green
+            children: [...]
+
+  - id: "kpi-dashboard"
+    description: "KPI 仪表盘，进度条可视化"
+    tags: ["business", "metrics", "progress-bar"]
+    usage_count: 0
+    last_used: null
+    yaml_snippet: |
+      - type: grid
+        columns: 2
+        gap: "0.75rem"
+        items:
+          - type: card
+            accent: blue
+            children:
+              - type: label
+                text: "HIGH PERFORMANCE"
+                color: "#60a5fa"
+              - type: text
+                text: "**AUC > 0.75**"
+                style: heading
+              - type: progress-bars-stack
+                items:
+                  - value: 0.8470
+                    label: "指标 A"
+                    color: "#60a5fa"
+                  - value: 0.7921
+                    label: "指标 B"
+                    color: "#818cf8"

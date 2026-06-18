@@ -1,0 +1,48 @@
+anti_patterns:
+  - id: "label-no-formula"
+    description: "label 组件不支持 $...$ 行内公式，会渲染为原始文本"
+    source: "compile_error"
+    frequency: 3
+    fix: "改用 text 组件 + style: heading，或用 Unicode 字符"
+
+  - id: "data-table-key-mismatch"
+    description: "data-table 的 column key 与 rows 字段名不一致导致空白列"
+    source: "user_feedback"
+    frequency: 2
+    fix: "检查所有 column key 是否与 rows 中的字段名完全一致（大小写敏感）"
+
+  - id: "card-nested-card"
+    description: "在 card 的 children 中嵌套 card 导致渲染异常"
+    source: "compile_error"
+    frequency: 1
+    fix: "使用 mini-card 代替嵌套的 card"
+
+  - id: "image-full-path"
+    description: "image 组件的 src 写了完整路径导致图片 404"
+    source: "user_feedback"
+    frequency: 1
+    fix: "只写文件名，系统自动拼接 fig/ 目录"
+
+  - id: "anchor-coord-mix"
+    description: "同时使用 anchor 和坐标属性导致 blob 位置错误"
+    source: "compile_error"
+    frequency: 1
+    fix: "选择 anchor 预设或精确坐标，不能同时使用"
+
+  - id: "grid-items-mismatch"
+    description: "grid items 数量与 columns 规格不对应导致布局错位"
+    source: "user_feedback"
+    frequency: 2
+    fix: "确保 items 数量与 columns 匹配（如 columns: 3 需要 3 个 items）"
+
+  - id: "yaml-escape-conflict"
+    description: "双引号中 \\r、\\n、\\t 被解释为 YAML 转义序列"
+    source: "compile_error"
+    frequency: 1
+    fix: "含 LaTeX 的字符串使用单引号，或确保 \\\\ 不紧邻 r/n/t 等字母"
+
+  - id: "formal-icon-invisible"
+    description: "formal 主题下图标不可见，但 agent 假设图标可见"
+    source: "user_feedback"
+    frequency: 2
+    fix: "formal 主题下不依赖图标传达信息，用文字标签补充"

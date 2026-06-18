@@ -42,10 +42,18 @@ AI 读取 AGENT.md → 理解全部组件和布局规则 → 生成 layout.yaml
 
 就这么简单。你负责说要什么，AI 负责怎么写。
 
-### AGENT.md 是什么
+### AGENT.md 与 Harness 机制
 
-`AGENT.md` 是 SlideCraft 的"设计圣经"，一份给 AI 看的完整技术文档，包含：
+`AGENT.md` 是 SlideCraft 的"设计圣经"，一份给 AI 看的核心约束文档。SlideCraft 采用分层文档架构：
 
+```
+AGENT.md              # 核心约束（每次必须读取）
+└── skills/           # 详细文档（按需检索）
+    ├── components/   # 组件属性详情
+    └── patterns/     # 布局模式模板
+```
+
+`AGENT.md` 包含：
 - **全部 17 个组件**的用法和属性
 - **3 套主题**（dark / light / formal）的选择指南
 - **7 种布局模式**的模板（三列卡片、对比布局、数据展示……）
@@ -53,7 +61,20 @@ AI 读取 AGENT.md → 理解全部组件和布局规则 → 生成 layout.yaml
 - **质量检查清单**
 - **新组件开发规范**——如果现有组件不够用，AI 可以基于设计规范自行扩展
 
-你只需要把 `AGENT.md` 作为上下文提供给 AI（在 Cursor 里放在项目根目录即可），然后用自然语言描述你想要的演示内容。
+`skills/` 目录包含组件和布局的详细文档，AI 在需要时按需检索，减少 context 占用。
+
+### 使用 Agent 工具
+
+SlideCraft 可以与多种 AI Agent 工具配合使用：
+
+| 工具 | 配置方式 |
+|------|----------|
+| **Claude Code** | `claude-code --project .` |
+| **Codex** | `codex --project .` |
+| **OpenCode** | `opencode --project .` |
+| **Cursor / Windsurf** | 项目根目录放置 `AGENT.md`，IDE 自动识别 |
+
+AI 会自动读取 `AGENT.md`，检索 `skills/` 目录，生成 `layout.yaml` 并运行编译。
 
 ### 一些好用的 prompt 模板
 
@@ -92,7 +113,7 @@ AI 会自动读取这些文件，提取关键内容，编排成幻灯片。你�
 
 `AGENT.md` 不只是组件手册，它还包含**组件开发规范**。当现有组件满足不了你的需求时，AI 可以：
 
-1. 读懂 `AGENT.md` 第 12 节的扩展规范
+1. 读懂 `AGENT.md` 的扩展规范
 2. 在 `src/components.js` 中注册新组件
 3. 在 `src/styles.js` 中添加配套样式（兼容三套主题）
 4. 自动更新 `AGENT.md` 补充文档
@@ -134,6 +155,10 @@ slidecraft/
 │   ├── styles.js         # 主题 & CSS
 │   └── ...
 ├── demo/                 # 官方 demo（5 页综合展示）
-├── AGENT.md              # AI 助手的技术参考文档
+├── AGENT.md              # AI 助手的核心约束文档
+├── skills/               # 组件和布局的详细文档
+│   ├── components/       # 组件属性详情
+│   └── patterns/         # 布局模式模板
+├── harness/              # 记忆系统（可选）
 └── package.json
 ```

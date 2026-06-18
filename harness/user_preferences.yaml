@@ -1,0 +1,37 @@
+theme_preference: dark
+
+density: balanced
+
+preferred_accent: blue
+
+grid_gap: "0.75rem"
+
+common_domains:
+  - LLM safety
+  - hallucination detection
+  - confidence calibration
+  - LoRA fine-tuning
+  - academic presentation
+  - technical report
+
+known_abbreviations:
+  - SQuAD
+  - FEVER
+  - HaluEval
+  - ECE
+  - RLHF
+  - AUC
+  - ROC
+  - PR
+
+slide_structure_preference:
+  title_page: true
+  summary_page: true
+  slides_per_section: "2-3"
+
+color_scheme:
+  primary: blue
+  secondary: purple
+  accent: green
+  warning: orange
+  error: red
