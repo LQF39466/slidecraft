@@ -8,7 +8,7 @@ SlideCraft 是一个轻量级的幻灯片编译器——你用 YAML 描述内容
 
 ```bash
 # 安装
-git clone <repo-url> && cd slidecraft
+git clone https://github.com/LQF39466/slidecraft.git && cd slidecraft
 npm install
 
 # 看看 demo 长什么样
